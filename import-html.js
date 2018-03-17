@@ -48,6 +48,34 @@ const deal_with_file = filename => {
     fs.writeFileSync(output_file_path, expand(contents));
 };
 
+const get_dependences = filepath => {
+    let contents = fs.readFileSync(filepath, 'utf-8');
+
+    // Divide in lines
+    let lines = contents.split(/\n/g).map(s => s.slice(0, -1));
+
+    // For each line, check whether the tag exists
+    for (let i = 0; i < lines.length; ++i) {
+        let re = /<#include(?:\s)?"(.*)"(?:\s)?\/?(?:\s)?>/;
+        let found = lines[i].match(re);
+        let filename = "";
+
+        if (found && found[1]) {
+            filename = found[1];
+        } else {
+            // Check single quotation case
+            let re = /<#include(?:\s)?'(.*)'(?:\s)?\/?(?:\s)?>/;
+            let found = lines[i].match(re);
+            if (found && found[1]) filename = found[1];
+        }
+
+        if (filename != "") {
+            if (!(filepath in dependences)) dependences[filepath] = [];
+            dependences[filepath].push(path.join(path.dirname(filepath), filename));
+        }
+    }
+};
+
 const exit_handler = () => {
     // Save dependences at exit
     if (!fs.existsSync(IMPORT_HTML_DEPENDENCES_FILE_PATH)) {
@@ -55,12 +83,18 @@ const exit_handler = () => {
     }
     fs.writeFileSync(IMPORT_HTML_DEPENDENCES_FILE_PATH, JSON.stringify(dependences));
 };
+process.on('exit', exit_handler.bind(null,{cleanup:true}));
+process.on('SIGINT', exit_handler.bind(null, {exit:true}));
+process.on('SIGUSR1', exit_handler.bind(null, {exit:true}));
+process.on('SIGUSR2', exit_handler.bind(null, {exit:true}));
+// process.on('uncaughtException', exit_handler.bind(null, {exit:true}));
 
 
 if (process.argv.length <= 2) error("Too few arguments.");
 
 // Load dependences file
 dependences = JSON.parse(fs.readFileSync(IMPORT_HTML_DEPENDENCES_FILE_PATH, 'utf-8'));
+
 
 if (process.argv[2].match(/w/)) {
     // Watch mode
@@ -72,7 +106,6 @@ if (process.argv[2].match(/w/)) {
     watch("./", { recursive: recursive }, (eventType, filename) => {
         // Ignore file event if it is not html
         if (path.extname(filename) != ".html") return;
-
 
     });
 } else {
