@@ -71,7 +71,7 @@ const get_dependences = filepath => {
 
         if (filename != "") {
             if (!(filepath in dependences)) dependences[filepath] = [];
-            dependences[filepath].push(path.join(path.dirname(filepath), filename));
+            dependences[filepath].push(path.resolve(path.join(path.dirname(filepath), filename)));
         }
     }
 };
