@@ -29,11 +29,11 @@ const defor = (v, str) => {
 };
 
 
-const deal_with_file = filename => {
-    const output_file_path = path.join(process.env.PWD, process.argv[4], process.argv[3]);
+const deal_with_file = (filename, output) => {
+    const output_file_path = path.join(process.env.PWD, output, filename);
 
-    let contents = fs.readFileSync(process.argv[3]).toString();
-    defor(contents, `Input file '{process.argv[3]}' is not found.`);
+    let contents = fs.readFileSync(filename).toString();
+    defor(contents, `Input file '{filename}' is not found.`);
 
     // Craete directory if doesn't exist
     if (!fs.existsSync(path.dirname(output_file_path))) {
