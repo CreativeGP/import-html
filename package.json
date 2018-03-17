@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/CreativeGP/import-html/issues"
   },
-  "homepage": "https://github.com/CreativeGP/import-html#readme"
+  "homepage": "https://github.com/CreativeGP/import-html#readme",
+  "dependencies": {
+    "node-watch": "^0.5.8"
+  }
 }
