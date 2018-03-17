@@ -1,3 +1,11 @@
+/***
+    import-html [https://github.com/CreativeGP/import-html]
+
+    03/16/2018 (mm/dd/yyyy)
+    CreativeGP (C) 2018
+*/
+
+
 const { expand } = require('./expand');
 const fs = require('fs');
 const path = require('path');
@@ -39,11 +47,16 @@ const deal_with_file = filename => {
 if (process.argv.length <= 2) error("Too few arguments.");
 if (process.argv[2].match(/w/)) {
     // Watch mode
+
+    // Support recursive option `r`
     let recursive = Boolean(process.argv[2].match(/r/));
-    console.log(recursive);
+
+    // Begin watching current directory
     watch("./", { recursive: recursive }, (eventType, filename) => {
-        console.log(eventType);
-        console.log(filename);
+        // Ignore file event if it is not html
+        if (path.extname(filename) != ".html") return;
+
+
     });
 } else {
     // Nomal mode

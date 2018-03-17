@@ -1,3 +1,11 @@
+/***
+    import-html [https://github.com/CreativeGP/import-html]
+
+    03/16/2018 (mm/dd/yyyy)
+    CreativeGP (C) 2018
+*/
+
+
 const fs = require('fs');
 
 module.exports = {
