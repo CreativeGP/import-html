@@ -30,7 +30,7 @@ const defor = (v, str) => {
 
 
 const deal_with_file = filename => {
-    const output_file_path = path.join(process.env.PWD, process.argv[4], process.argv[2]);
+    const output_file_path = path.join(process.env.PWD, process.argv[4], process.argv[3]);
 
     let contents = fs.readFileSync(process.argv[3]).toString();
     defor(contents, `Input file '{process.argv[3]}' is not found.`);
@@ -98,6 +98,10 @@ dependences = JSON.parse(fs.readFileSync(IMPORT_HTML_DEPENDENCES_FILE_PATH, 'utf
 
 if (process.argv[2].match(/w/)) {
     // Watch mode
+
+    let update = filepath => {
+        deal_with_file();
+    };
 
     // Support recursive option `r`
     let recursive = Boolean(process.argv[2].match(/r/));
