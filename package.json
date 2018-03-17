@@ -1,0 +1,19 @@
+{
+  "name": "import-html",
+  "version": "1.0.0",
+  "description": "This is a little nodejs program in which you can include other html in your html.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CreativeGP/import-html.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CreativeGP/import-html/issues"
+  },
+  "homepage": "https://github.com/CreativeGP/import-html#readme"
+}
