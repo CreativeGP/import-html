@@ -53,11 +53,15 @@ const exit_handler = () => {
     if (!fs.existsSync(IMPORT_HTML_DEPENDENCES_FILE_PATH)) {
         fs.closeSync(fs.openSync(IMPORT_HTML_DEPENDENCES_FILE_PATH, 'w'));
     }
-    fs.writeSync(IMPORT_HTML_DEPENDENCES_FILE_PATH, JSON.stringify(dependences));
+    fs.writeFileSync(IMPORT_HTML_DEPENDENCES_FILE_PATH, JSON.stringify(dependences));
 };
 
 
 if (process.argv.length <= 2) error("Too few arguments.");
+
+// Load dependences file
+dependences = JSON.parse(fs.readFileSync(IMPORT_HTML_DEPENDENCES_FILE_PATH, 'utf-8'));
+
 if (process.argv[2].match(/w/)) {
     // Watch mode
 
