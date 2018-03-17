@@ -14,6 +14,11 @@ const path = require('path');
 // So use 'node-watch' instead
 const watch = require('node-watch');
 
+var dependences = {
+};
+
+const IMPORT_HTML_DEPENDENCES_FILE_PATH = "./.import_html_dependences.json";
+
 const error = str => {
     console.log("Error! " + str);
     process.exit(1);
@@ -41,6 +46,14 @@ const deal_with_file = filename => {
     }
 
     fs.writeFileSync(output_file_path, expand(contents));
+};
+
+const exit_handler = () => {
+    // Save dependences at exit
+    if (!fs.existsSync(IMPORT_HTML_DEPENDENCES_FILE_PATH)) {
+        fs.closeSync(fs.openSync(IMPORT_HTML_DEPENDENCES_FILE_PATH, 'w'));
+    }
+    fs.writeSync(IMPORT_HTML_DEPENDENCES_FILE_PATH, JSON.stringify(dependences));
 };
 
 
